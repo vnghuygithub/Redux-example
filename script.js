@@ -15,8 +15,40 @@ function reducer(state = initState, action) {
 }
 
 //store 
-const store = createStore(reducer)
+const store = window.store = createStore(reducer)
 
+//Actions
+function actionDeposit (payload) {
+    return {
+        type: 'DEPOSIT',
+        payload
+    }
+}
+function actionWithdraw (payload) {
+    return {
+        type: 'WITHDRAW',
+        payload
+    }
+}
+
+//DOM events
+const deposit = document.querySelector('#deposit')
+const withdraw = document.querySelector('#withdraw')
+
+//Event handlers
+deposit.onclick = function() {
+    store.dispatch(actionDeposit(10));
+}
+withdraw.onclick = function() {
+    store.dispatch(actionWithdraw(10));
+}
+
+//Listener
+store.subscribe(() => {
+    render(); 
+})
+
+//Render 
 function render() {
     const output = document.querySelector('#output');
     output.innerText = store.getState();
